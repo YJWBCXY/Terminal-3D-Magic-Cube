@@ -1,0 +1,1 @@
+add_executable(terminal_3d_projection main.cpp)
