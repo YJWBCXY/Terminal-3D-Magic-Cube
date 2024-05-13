@@ -6,19 +6,43 @@
 #include <thread>
 #include <vector>
 
+#if defined(__linux__) || defined(__APPLE__)
+    #include <stdio.h>
+    #include <sys/ioctl.h>
+    #include <unistd.h>
+#elif defined(_WIN32)
+    #include <windows.h>
+#endif
+
 #define RX 80
 #define RY 23
 
 #define R1 1
 #define R2 2
 
-#define K1 125
+#define K1 30
 #define K2 R1 + R2 * 2
 
 void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
+    int terminal_x = RX, terminal_y = RY;
 
     while (true) {
+#if defined(__linux__) || defined(__APPLE__)
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        terminal_x = w.ws_col;
+        terminal_y = w.ws_row;
+#elif defined(_WIN32)
+        // untested
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        int columns, rows;
+
+        GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+        terminal_x = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        terminal_y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+#endif
+
         std::string print_buffer;
         std::vector<double> z_buffer;
         rotation_x += 0.07;
@@ -26,8 +50,8 @@ void ascii_frame() {
         double cos_rx = cos(rotation_x), sin_rx = sin(rotation_x);
         double cos_rz = cos(rotation_z), sin_rz = sin(rotation_z);
 
-        for (int i = 0; i < RX * RY; i++) {
-            if (i % RX == RX - 1) {
+        for (int i = 0; i < terminal_x * terminal_y; i++) {
+            if (i % terminal_x == terminal_x - 1) {
                 print_buffer.push_back('\n');
             } else {
                 print_buffer.push_back(' ');
@@ -45,20 +69,20 @@ void ascii_frame() {
                                         circle_y * cos_rx + K2); //  1/z
                 double t = sin_phi * circle_x * cos_rx - sin_theta * sin_rx;
 
-                int x = (int)(RX / 2 +
+                int x = (int)(terminal_x / 2 +
                               K1 * inverse_z *
                                   (cos_phi * circle_x * cos_rz - t * sin_rz)),
-                    y = (int)(RY / 2 +
+                    y = (int)(terminal_y / 2 +
                               (K1 / 2) * inverse_z *
                                   (cos_phi * circle_x * sin_rz + t * cos_rz));
-                double o = x + RX * y;
+                double o = x + terminal_x * y;
                 int normal =
                     (int)(8 *
                           ((sin_theta * sin_rx - sin_phi * cos_theta * cos_rx) *
                                cos_rz -
                            sin_phi * cos_theta * sin_rx - sin_theta * cos_rx -
                            cos_phi * cos_theta * sin_rz));
-                if (y < RY && y >= 0 && x >= 0 && x <= RX - 1 &&
+                if (y < terminal_y && y >= 0 && x >= 0 && x <= terminal_x - 1 &&
                     inverse_z > z_buffer[o]) {
                     z_buffer[o] = inverse_z;
                     char _char;
