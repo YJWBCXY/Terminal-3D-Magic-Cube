@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -15,12 +16,12 @@
 #endif
 
 #define RX 80
-#define RY 23
+#define RY 69
 
 #define R1 1
 #define R2 2
 
-#define K1 30
+#define K1 88 // 23:27 //46:58 //69:88
 #define K2 R1 + R2 * 2
 
 void ascii_frame() {
@@ -42,7 +43,11 @@ void ascii_frame() {
         terminal_x = csbi.srWindow.Right - csbi.srWindow.Left + 1;
         terminal_y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 #endif
-
+        double k1;
+        {
+            int x = std::min(terminal_x, terminal_y);
+            k1 = -0.001 * x * x + 1.413 * x - 5;
+        }
         std::string print_buffer;
         std::vector<double> z_buffer;
         rotation_x += 0.07;
@@ -70,10 +75,10 @@ void ascii_frame() {
                 double t = sin_phi * circle_x * cos_rx - sin_theta * sin_rx;
 
                 int x = (int)(terminal_x / 2 +
-                              K1 * inverse_z *
+                              k1 * inverse_z *
                                   (cos_phi * circle_x * cos_rz - t * sin_rz)),
-                    y = (int)(terminal_y / 2 +
-                              (K1 / 2) * inverse_z *
+                    y = (int)(terminal_y / 1.95 + // 1.95 Good enough for now
+                              (k1 / 2) * inverse_z *
                                   (cos_phi * circle_x * sin_rz + t * cos_rz));
                 double o = x + terminal_x * y;
                 int normal =
