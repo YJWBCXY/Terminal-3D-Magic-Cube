@@ -22,13 +22,15 @@
 #define R2 2
 
 // #define K1 88 //23:27 //46:58 //69:88
-#define K2 R1 + R2 * 2
+// #define K2 R1 + R2 * 2
 
 
 std::string torus(const int& terminal_x,
                   const int& terminal_y,
                   double& rotation_x,
-                  double& rotation_z) {
+                  double& rotation_z,
+                  const int& r1,
+                  const int& r2) {
     double k1;
     {
         int x = std::min(terminal_x, terminal_y);
@@ -40,6 +42,7 @@ std::string torus(const int& terminal_x,
     rotation_z += 0.03;
     double cos_rx = cos(rotation_x), sin_rx = sin(rotation_x);
     double cos_rz = cos(rotation_z), sin_rz = sin(rotation_z);
+    int k2 = r1 + r2 * 2;
 
     for (int i = 0; i < terminal_x * terminal_y; i++) {
         if (i % terminal_x == terminal_x - 1) {
@@ -54,9 +57,9 @@ std::string torus(const int& terminal_x,
         double cos_theta = cos(theta), sin_theta = sin(theta);
         for (double phi = 0; phi < 2 * M_PI; phi += 0.02) {
             double cos_phi = cos(phi), sin_phi = sin(phi);
-            double circle_x = cos_theta * R1 + R2, circle_y = sin_theta * R1;
+            double circle_x = cos_theta * r1 + r2, circle_y = sin_theta * r1;
             double inverse_z = 1 / (sin_phi * circle_x * sin_rx +
-                                    circle_y * cos_rx + K2); //  1/z
+                                    circle_y * cos_rx + k2); //  1/z
             double t = sin_phi * circle_x * cos_rx - sin_theta * sin_rx;
 
             int x = (int)(terminal_x / 2 +
@@ -109,7 +112,8 @@ void ascii_frame() {
 
         std::string print_buffer;
 
-        print_buffer = torus(terminal_x, terminal_y, rotation_x, rotation_z);
+        print_buffer =
+            torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
         std::cout << print_buffer;
         std::this_thread::sleep_for(std::chrono::milliseconds(35));
