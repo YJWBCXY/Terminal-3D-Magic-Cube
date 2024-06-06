@@ -1,3 +1,3 @@
-add_executable(terminal_3d_projection main.cpp)
+add_executable(terminal_3d_projection main.cpp plane.cpp)
 
 target_compile_definitions(terminal_3d_projection PUBLIC compiler_flags)

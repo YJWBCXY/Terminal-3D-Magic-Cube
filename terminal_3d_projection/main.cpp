@@ -15,15 +15,32 @@
     #include <windows.h>
 #endif
 
+#include "plane.hpp"
+
 #define RX 80
 #define RY 69
 
 #define R1 1
 #define R2 2
 
+#define PLANE_STEP 0.0145
+
 // #define K1 88 //23:27 //46:58 //69:88
 // #define K2 R1 + R2 * 2
 
+void blank_canvas(const int& terminal_x,
+                  const int& terminal_y,
+                  std::string& print_buffer,
+                  std::vector<double>& z_buffer) {
+    for (int i = 0; i < terminal_x * terminal_y; i++) {
+        if (i % terminal_x == terminal_x - 1) {
+            print_buffer.push_back('\n');
+        } else {
+            print_buffer.push_back(' ');
+        }
+        z_buffer.push_back(0.0);
+    }
+}
 
 std::string torus(const int& terminal_x,
                   const int& terminal_y,
@@ -44,14 +61,7 @@ std::string torus(const int& terminal_x,
     double cos_rz = cos(rotation_z), sin_rz = sin(rotation_z);
     int k2 = r1 + r2 * 2;
 
-    for (int i = 0; i < terminal_x * terminal_y; i++) {
-        if (i % terminal_x == terminal_x - 1) {
-            print_buffer.push_back('\n');
-        } else {
-            print_buffer.push_back(' ');
-        }
-        z_buffer.push_back(0.0);
-    }
+    blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
 
     for (double theta = 0; theta < 2 * M_PI; theta += 0.07) {
         double cos_theta = cos(theta), sin_theta = sin(theta);
@@ -90,9 +100,57 @@ std::string torus(const int& terminal_x,
     return print_buffer;
 }
 
+std::string cube(const int& terminal_x,
+                 const int& terminal_y,
+                 double& rotation_x,
+                 double& rotation_z,
+                 Plane& square) {
+    double a = 3;
+    double k1;
+    {
+        int x = std::min(terminal_x, terminal_y);
+        // k1 = -0.001 * x * x + 1.413 * x - 5;
+        k1 = 28;
+    }
+    std::string print_buffer;
+    std::vector<double> z_buffer;
+    int k2 = a * 1.5;
+    double ha = a / 2;
+
+    blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
+
+    square.rotate_x(0.07);
+
+    for (int point = 0; point < square.SIZE; point++) {
+        double inverse_z = 1 / ((square.points_z[point]) + k2);
+
+        int px = (int)(terminal_x / 2 +
+                       k1 * inverse_z * (square.points_x[point])),
+            py = (int)(terminal_y / 1.95 +
+                       (k1 / 2) * inverse_z * (square.points_y[point]));
+
+        int o = px + terminal_x * py;
+
+        int normal = (int)(8 * (1));
+        if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
+            inverse_z > z_buffer[o]) {
+            z_buffer[o] = inverse_z;
+            char _char;
+            if (normal > 0) {
+                _char = ".,-~:;=!*#$@"[normal];
+            } else {
+                _char = '.';
+            }
+            print_buffer[o] = _char;
+        }
+    }
+    return print_buffer;
+}
+
 void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
     int terminal_x = RX, terminal_y = RY;
+    Plane square = Plane(3, 1.5);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
@@ -112,8 +170,11 @@ void ascii_frame() {
 
         std::string print_buffer;
 
+
+
         print_buffer =
-            torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
+            cube(terminal_x, terminal_y, rotation_x, rotation_z, square);
+        // torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
         std::cout << print_buffer;
         std::this_thread::sleep_for(std::chrono::milliseconds(35));

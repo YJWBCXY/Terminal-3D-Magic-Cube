@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CMake Debug MacOS",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/terminal_3d_projection/terminal_3d_projection",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb",
+            "preLaunchTask": "build"
+        }
+    ]
+}
