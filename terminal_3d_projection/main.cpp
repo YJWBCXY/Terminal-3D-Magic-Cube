@@ -1,4 +1,4 @@
-#if define(_WIN32)
+#if defined(_WIN32)
     #define _USE_MATH_DEFINES
 #endif
 
@@ -123,7 +123,7 @@ std::string cube(const int& terminal_x,
 
     blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
 
-    square.rotate_x(0.07);
+    square.rotate_y(0.07);
 
     for (int point = 0; point < square.SIZE; point++) {
         double inverse_z = 1 / ((square.points_z[point]) + k2);
@@ -148,6 +148,7 @@ std::string cube(const int& terminal_x,
             print_buffer[o] = _char;
         }
     }
+    square.clear();
     return print_buffer;
 }
 

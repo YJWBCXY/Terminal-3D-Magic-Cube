@@ -17,4 +17,8 @@ class Plane {
     // Plane(double size_x, double size_y, double z_offset);
 
     void rotate_x(double angle);
+    void rotate_y(double angle);
+    void rotate_z(double angle);
+
+    void clear();
 };
