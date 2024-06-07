@@ -1,3 +1,7 @@
+#if define(_WIN32)
+    #define _USE_MATH_DEFINES
+#endif
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -50,7 +54,7 @@ std::string torus(const int& terminal_x,
                   const int& r2) {
     double k1;
     {
-        int x = std::min(terminal_x, terminal_y);
+        int x = (std::min)(terminal_x, terminal_y);
         k1 = -0.001 * x * x + 1.413 * x - 5;
     }
     std::string print_buffer;
@@ -108,7 +112,7 @@ std::string cube(const int& terminal_x,
     double a = 3;
     double k1;
     {
-        int x = std::min(terminal_x, terminal_y);
+        int x = (std::min)(terminal_x, terminal_y);
         // k1 = -0.001 * x * x + 1.413 * x - 5;
         k1 = 28;
     }

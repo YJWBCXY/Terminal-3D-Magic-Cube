@@ -23,22 +23,6 @@ Plane::Plane(double size, double z_offset) {
     points_z = initial_points_z;
 }
 
-// Plane::Plane(double size_x, double size_y, double z_offset) {
-//     SIZE_X = size_x / RESOLUTION, SIZE_Y = size_y / RESOLUTION;
-//     SIZE = SIZE_X * SIZE_Y;
-//     initial_points_x.resize(SIZE);
-//     initial_points_y.resize(SIZE);
-//     initial_points_z.resize(SIZE);
-//     for (int y = 0; y < SIZE_Y; y++) {
-//         for (int x = 0; x < SIZE_X; x++) {
-//             int o = x + SIZE_X * y;
-//             initial_points_x[o] = x * RESOLUTION - RESOLUTION * SIZE_X / 2;
-//             initial_points_y[o] = y * RESOLUTION - RESOLUTION * SIZE_Y / 2;
-//             initial_points_z[o] = z_offset;
-//         }
-//     }
-// }
-
 void Plane::rotate_x(double angle) {
     rotation_x += angle;
     double sin_alpha = sin(rotation_x), cos_alpha = cos(rotation_x);
