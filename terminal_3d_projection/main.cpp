@@ -22,7 +22,7 @@
 #include "plane.hpp"
 
 #define RX 80
-#define RY 69
+#define RY 24
 
 #define R1 1
 #define R2 2
@@ -124,6 +124,7 @@ std::string cube(const int& terminal_x,
     blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
 
     square.rotate_y(0.07);
+    square.calculate_dot_product();
 
     for (int point = 0; point < square.SIZE; point++) {
         double inverse_z = 1 / ((square.points_z[point]) + k2);
@@ -135,7 +136,7 @@ std::string cube(const int& terminal_x,
 
         int o = px + terminal_x * py;
 
-        int normal = (int)(8 * (1));
+        int normal = (int)(8 * (square.dot_product));
         if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
             inverse_z > z_buffer[o]) {
             z_buffer[o] = inverse_z;
@@ -148,7 +149,6 @@ std::string cube(const int& terminal_x,
             print_buffer[o] = _char;
         }
     }
-    square.clear();
     return print_buffer;
 }
 
@@ -157,8 +157,8 @@ void ascii_frame() {
     int terminal_x = RX, terminal_y = RY;
     Plane square = Plane(3, 1.5);
 
-    square.protate_x(1);
-    square.pmove(0, 2, 0);
+    // square.protate_x(1);
+    // square.pmove(0, 2, 0);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
@@ -185,6 +185,7 @@ void ascii_frame() {
         // torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
         std::cout << print_buffer;
+        square.clear();
         std::this_thread::sleep_for(std::chrono::milliseconds(35));
     }
 }

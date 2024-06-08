@@ -15,12 +15,10 @@ Plane::Plane(double size, double z_offset) {
             int o = x + SIZE_X * y;
             initial_points_x[o] = x * RESOLUTION - RESOLUTION * SIZE_X / 2;
             initial_points_y[o] = y * RESOLUTION - RESOLUTION * SIZE_Y / 2;
-            initial_points_z[o] = z_offset;
+            initial_points_z[o] = -z_offset;
         }
     }
-    points_x = initial_points_x;
-    points_y = initial_points_y;
-    points_z = initial_points_z;
+    clear();
 }
 
 void Plane::rotate_x(double angle, double& y, double& z) {
@@ -42,39 +40,52 @@ void Plane::rotate_z(double angle, double& x, double& y) {
     y = tmp_x * sin_gamma + y * cos_gamma;
 }
 
+void Plane::calculate_dot_product() {
+    dot_product = 0;
+    for (int i = 0; i < 3; i++) {
+        dot_product += normal[i] * view[i];
+    }
+}
+
 void Plane::rotate_x(double angle) {
     rotation_x += angle;
     for (int i = 0; i < SIZE; i++) {
         rotate_x(rotation_x, points_y[i], points_z[i]);
     }
+    rotate_x(rotation_x, normal[1], normal[2]);
 }
 void Plane::rotate_y(double angle) {
     rotation_y += angle;
     for (int i = 0; i < SIZE; i++) {
         rotate_y(rotation_y, points_x[i], points_z[i]);
     }
+    rotate_y(rotation_y, normal[0], normal[2]);
 }
 void Plane::rotate_z(double angle) {
     rotation_z += angle;
     for (int i = 0; i < SIZE; i++) {
         rotate_y(rotation_z, points_x[i], points_y[i]);
     }
+    rotate_z(rotation_z, normal[0], normal[1]);
 }
 
 void Plane::protate_x(double angle) {
     for (int i = 0; i < SIZE; i++) {
         rotate_x(angle, initial_points_y[i], initial_points_z[i]);
     }
+    rotate_x(initial_normal[0], initial_normal[1], initial_normal[2]);
 }
 void Plane::protate_y(double angle) {
     for (int i = 0; i < SIZE; i++) {
-        rotate_x(angle, initial_points_x[i], initial_points_z[i]);
+        rotate_y(angle, initial_points_x[i], initial_points_z[i]);
     }
+    rotate_y(initial_normal[0], initial_normal[1], initial_normal[2]);
 }
 void Plane::protate_z(double angle) {
     for (int i = 0; i < SIZE; i++) {
-        rotate_x(angle, initial_points_x[i], initial_points_y[i]);
+        rotate_z(angle, initial_points_x[i], initial_points_y[i]);
     }
+    rotate_z(initial_normal[0], initial_normal[1], initial_normal[2]);
 }
 
 void Plane::move(double x, double y, double z) {
@@ -96,4 +107,7 @@ void Plane::clear() {
     points_x = initial_points_x;
     points_y = initial_points_y;
     points_z = initial_points_z;
+    for (int i = 0; i < 3; i++) {
+        normal[i] = initial_normal[i];
+    }
 }
