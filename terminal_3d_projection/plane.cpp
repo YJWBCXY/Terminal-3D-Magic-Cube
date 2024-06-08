@@ -77,6 +77,21 @@ void Plane::protate_z(double angle) {
     }
 }
 
+void Plane::move(double x, double y, double z) {
+    for (int i = 0; i < SIZE; i++) {
+        points_x[i] += x;
+        points_y[i] += y;
+        points_z[i] += z;
+    }
+}
+void Plane::pmove(double x, double y, double z) {
+    for (int i = 0; i < SIZE; i++) {
+        initial_points_x[i] += x;
+        initial_points_y[i] += y;
+        initial_points_z[i] += z;
+    }
+}
+
 void Plane::clear() {
     points_x = initial_points_x;
     points_y = initial_points_y;

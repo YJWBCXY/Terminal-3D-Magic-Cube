@@ -30,5 +30,8 @@ class Plane {
     void protate_y(double angle);
     void protate_z(double angle);
 
+    void move(double x, double y, double z);
+    void pmove(double x, double y, double z);
+
     void clear();
 };

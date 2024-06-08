@@ -158,6 +158,7 @@ void ascii_frame() {
     Plane square = Plane(3, 1.5);
 
     square.protate_x(1);
+    square.pmove(0, 2, 0);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
