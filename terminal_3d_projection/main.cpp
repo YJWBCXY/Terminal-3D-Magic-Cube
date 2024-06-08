@@ -157,6 +157,8 @@ void ascii_frame() {
     int terminal_x = RX, terminal_y = RY;
     Plane square = Plane(3, 1.5);
 
+    square.protate_x(1);
+
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
         struct winsize w;

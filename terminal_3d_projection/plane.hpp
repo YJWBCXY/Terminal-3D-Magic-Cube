@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 #include <vector>
 
 class Plane {
@@ -12,13 +12,23 @@ class Plane {
     int SIZE;
     std::vector<double> points_x, points_y, points_z;
 
+    private:
+    void rotate_x(double angle, double& y, double& z);
+    void rotate_y(double angle, double& x, double& z);
+    void rotate_z(double angle, double& x, double& y);
+
     public:
     Plane(double size, double z_offset);
     // Plane(double size_x, double size_y, double z_offset);
+    // Plane(double size_x, double size_y, double z_offset, int direction);
 
     void rotate_x(double angle);
     void rotate_y(double angle);
     void rotate_z(double angle);
+
+    void protate_x(double angle);
+    void protate_y(double angle);
+    void protate_z(double angle);
 
     void clear();
 };

@@ -23,33 +23,57 @@ Plane::Plane(double size, double z_offset) {
     points_z = initial_points_z;
 }
 
+void Plane::rotate_x(double angle, double& y, double& z) {
+    double sin_alpha = sin(angle), cos_alpha = cos(angle);
+    double tmp_y = y;
+    y = y * cos_alpha - z * sin_alpha;
+    z = tmp_y * sin_alpha + z * cos_alpha;
+}
+void Plane::rotate_y(double angle, double& x, double& z) {
+    double sin_beta = sin(angle), cos_beta = cos(angle);
+    double tmp_x = x;
+    x = tmp_x * cos_beta + z * sin_beta;
+    z = -tmp_x * sin_beta + z * cos_beta;
+}
+void Plane::rotate_z(double angle, double& x, double& y) {
+    double sin_gamma = sin(angle), cos_gamma = cos(angle);
+    double tmp_x = x;
+    x = tmp_x * cos_gamma - y * sin_gamma;
+    y = tmp_x * sin_gamma + y * cos_gamma;
+}
+
 void Plane::rotate_x(double angle) {
     rotation_x += angle;
-    double sin_alpha = sin(rotation_x), cos_alpha = cos(rotation_x);
     for (int i = 0; i < SIZE; i++) {
-        double tpm_y = points_y[i];
-        points_y[i] = tpm_y * cos_alpha - points_z[i] * sin_alpha;
-        points_z[i] = tpm_y * sin_alpha + points_z[i] * cos_alpha;
+        rotate_x(rotation_x, points_y[i], points_z[i]);
     }
 }
-
 void Plane::rotate_y(double angle) {
     rotation_y += angle;
-    double sin_beta = sin(rotation_y), cos_beta = cos(rotation_y);
     for (int i = 0; i < SIZE; i++) {
-        double tpm_x = points_x[i];
-        points_x[i] = tpm_x * cos_beta + points_z[i] * sin_beta;
-        points_z[i] = -tpm_x * sin_beta + points_z[i] * cos_beta;
+        rotate_y(rotation_y, points_x[i], points_z[i]);
+    }
+}
+void Plane::rotate_z(double angle) {
+    rotation_z += angle;
+    for (int i = 0; i < SIZE; i++) {
+        rotate_y(rotation_z, points_x[i], points_y[i]);
     }
 }
 
-void Plane::rotate_z(double angle) {
-    rotation_z += angle;
-    double sin_gamma = sin(rotation_z), cos_gamma = cos(rotation_z);
+void Plane::protate_x(double angle) {
     for (int i = 0; i < SIZE; i++) {
-        double tpm_x = points_x[i];
-        points_x[i] = tpm_x * cos_gamma - points_y[i] * sin_gamma;
-        points_y[i] = tpm_x * sin_gamma + points_y[i] * cos_gamma;
+        rotate_x(angle, initial_points_y[i], initial_points_z[i]);
+    }
+}
+void Plane::protate_y(double angle) {
+    for (int i = 0; i < SIZE; i++) {
+        rotate_x(angle, initial_points_x[i], initial_points_z[i]);
+    }
+}
+void Plane::protate_z(double angle) {
+    for (int i = 0; i < SIZE; i++) {
+        rotate_x(angle, initial_points_x[i], initial_points_y[i]);
     }
 }
 
