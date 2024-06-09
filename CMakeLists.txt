@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(terminal_3d_projection)
-
-add_library(compiler_flags INTERFACE)
-target_compile_features(compiler_flags INTERFACE cxx_std_11)
 
 add_subdirectory(terminal_3d_projection)
