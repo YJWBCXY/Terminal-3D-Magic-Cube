@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
 
+#include "definitions.h"
 #include "plane.hpp"
 
 
@@ -10,12 +11,76 @@ Plane::Plane(double size, double z_offset) {
     initial_points_x.resize(SIZE);
     initial_points_y.resize(SIZE);
     initial_points_z.resize(SIZE);
+    initial_normal[2] = 1;
     for (int y = 0; y < SIZE_Y; y++) {
         for (int x = 0; x < SIZE_X; x++) {
             int o = x + SIZE_X * y;
             initial_points_x[o] = x * RESOLUTION - RESOLUTION * SIZE_X / 2;
             initial_points_y[o] = y * RESOLUTION - RESOLUTION * SIZE_Y / 2;
             initial_points_z[o] = -z_offset;
+        }
+    }
+    clear();
+}
+
+Plane::Plane(double size, double z_offset, int direction) {
+    SIZE_X = size / RESOLUTION, SIZE_Y = size / RESOLUTION;
+    SIZE = SIZE_X * SIZE_Y;
+    initial_points_x.resize(SIZE);
+    initial_points_y.resize(SIZE);
+    initial_points_z.resize(SIZE);
+
+    std::vector<double>*ptr_1, *ptr_2, *ptr_flat;
+    int offset_direction = 1;
+
+    switch (direction) {
+        case PR_FRONT:
+            ptr_1 = &initial_points_x;
+            ptr_2 = &initial_points_y;
+            ptr_flat = &initial_points_z;
+            offset_direction = -1;
+            initial_normal[2] = 1;
+            break;
+        case PR_BACK:
+            ptr_1 = &initial_points_x;
+            ptr_2 = &initial_points_y;
+            ptr_flat = &initial_points_z;
+            initial_normal[2] = -1;
+            break;
+        case PR_RIGHT:
+            ptr_1 = &initial_points_y;
+            ptr_2 = &initial_points_z;
+            ptr_flat = &initial_points_x;
+            initial_normal[0] = -1;
+            break;
+        case PR_LEFT:
+            ptr_1 = &initial_points_y;
+            ptr_2 = &initial_points_z;
+            ptr_flat = &initial_points_x;
+            offset_direction = -1;
+            initial_normal[0] = 1;
+            break;
+        case PR_TOP:
+            ptr_1 = &initial_points_x;
+            ptr_2 = &initial_points_z;
+            ptr_flat = &initial_points_y;
+            offset_direction = -1;
+            initial_normal[1] = 1;
+            break;
+        case PR_BOTTOM:
+            ptr_1 = &initial_points_x;
+            ptr_2 = &initial_points_z;
+            ptr_flat = &initial_points_y;
+            initial_normal[1] = -1;
+            break;
+    }
+
+    for (int y = 0; y < SIZE_Y; y++) {
+        for (int x = 0; x < SIZE_X; x++) {
+            int o = x + SIZE_X * y;
+            ptr_1->at(o) = x * RESOLUTION - RESOLUTION * SIZE_X / 2;
+            ptr_2->at(o) = y * RESOLUTION - RESOLUTION * SIZE_Y / 2;
+            ptr_flat->at(o) = z_offset * offset_direction;
         }
     }
     clear();

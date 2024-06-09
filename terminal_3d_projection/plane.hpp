@@ -7,13 +7,13 @@ class Plane {
     double RESOLUTION = 0.0145;
     double rotation_x = 0, rotation_y = 0, rotation_z = 0;
     std::vector<double> initial_points_x, initial_points_y, initial_points_z;
-    double initial_normal[3] = {0, 0, 1}; // x, y, z
+    double initial_normal[3] = {0, 0, 0}; // x, y, z
 
     public:
     int SIZE;
     std::vector<double> points_x, points_y, points_z;
-    double normal[3] = {0, 0, -1}; // x, y, z
-    double view[3] = {0, 1, 1};    // x, y, z
+    double normal[3] = {0, 0, 0}; // x, y, z
+    double view[3] = {0, 1, 1};   // x, y, z
     double dot_product;
 
     private:
@@ -23,8 +23,7 @@ class Plane {
 
     public:
     Plane(double size, double z_offset);
-    // Plane(double size_x, double size_y, double z_offset);
-    // Plane(double size_x, double size_y, double z_offset, int direction);
+    Plane(double size, double z_offset, int direction);
     void calculate_dot_product();
 
     void rotate_x(double angle);

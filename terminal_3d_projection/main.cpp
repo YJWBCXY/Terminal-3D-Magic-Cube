@@ -19,6 +19,7 @@
     #include <windows.h>
 #endif
 
+#include "definitions.h"
 #include "plane.hpp"
 
 #define RX 80
@@ -123,7 +124,7 @@ std::string cube(const int& terminal_x,
 
     blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
 
-    square.rotate_y(0.07);
+    square.rotate_x(0.03);
     square.calculate_dot_product();
 
     for (int point = 0; point < square.SIZE; point++) {
@@ -155,7 +156,7 @@ std::string cube(const int& terminal_x,
 void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
     int terminal_x = RX, terminal_y = RY;
-    Plane square = Plane(3, 1.5);
+    Plane square = Plane(3, 1.5, PR_BOTTOM);
 
     // square.protate_x(1);
     // square.pmove(0, 2, 0);
