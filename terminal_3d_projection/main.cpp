@@ -19,6 +19,7 @@
     #include <windows.h>
 #endif
 
+#include "cube.hpp"
 #include "definitions.h"
 #include "plane.hpp"
 
@@ -153,10 +154,60 @@ std::string cube(const int& terminal_x,
     return print_buffer;
 }
 
+std::string cube(const int& terminal_x,
+                 const int& terminal_y,
+                 double& rotation_x,
+                 double& rotation_z,
+                 Cube& dice) {
+    double a = 3;
+    double k1;
+    {
+        int x = (std::min)(terminal_x, terminal_y);
+        // k1 = -0.001 * x * x + 1.413 * x - 5;
+        k1 = 28;
+    }
+    std::string print_buffer;
+    std::vector<double> z_buffer;
+    int k2 = a * 1.5;
+    double ha = a / 2;
+
+    blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
+
+    std::vector<double> points_x, points_y, points_z, dot_product;
+
+    dot_product = dice.get_points(points_x, points_y, points_z);
+    int cube_size = dot_product.size();
+    for (int point = 0; point < cube_size; point++) {
+        double inverse_z = 1 / ((points_z[point]) + k2);
+
+        int px = (int)(terminal_x / 2 + k1 * inverse_z * (points_x[point])),
+            py = (int)(terminal_y / 1.95 +
+                       (k1 / 2) * inverse_z * (points_y[point]));
+
+        int o = px + terminal_x * py;
+
+        int normal = (int)(8 * (dot_product[point]));
+        if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
+            inverse_z > z_buffer[o]) {
+            z_buffer[o] = inverse_z;
+            char _char;
+            if (normal > 0) {
+                _char = ".,-~:;=!*#$@"[normal];
+            } else {
+                _char = '.';
+            }
+            print_buffer[o] = _char;
+        }
+    }
+    return print_buffer;
+}
+
 void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
     int terminal_x = RX, terminal_y = RY;
-    Plane square = Plane(3, 1.5, PR_BOTTOM);
+    // Plane square = Plane(3, 1.5, PR_FRONT);
+    Cube dice = Cube(3);
+
 
     // square.protate_x(1);
     // square.pmove(0, 2, 0);
@@ -182,11 +233,12 @@ void ascii_frame() {
 
 
         print_buffer =
-            cube(terminal_x, terminal_y, rotation_x, rotation_z, square);
+            cube(terminal_x, terminal_y, rotation_x, rotation_z, dice);
+        // cube(terminal_x, terminal_y, rotation_x, rotation_z, square);
         // torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
         std::cout << print_buffer;
-        square.clear();
+        // square.clear();
         std::this_thread::sleep_for(std::chrono::milliseconds(35));
     }
 }
