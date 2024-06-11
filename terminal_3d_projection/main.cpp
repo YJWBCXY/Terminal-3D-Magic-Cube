@@ -175,7 +175,13 @@ std::string cube(const int& terminal_x,
 
     std::vector<double> points_x, points_y, points_z, dot_product;
 
+
+    dice.rotate_y(0.07);
+    dice.rotate_x(0.03);
+
     dot_product = dice.get_points(points_x, points_y, points_z);
+    dice.clear();
+
     int cube_size = dot_product.size();
     for (int point = 0; point < cube_size; point++) {
         double inverse_z = 1 / ((points_z[point]) + k2);

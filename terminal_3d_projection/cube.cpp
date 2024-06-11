@@ -35,3 +35,26 @@ std::vector<double> Cube::get_points(std::vector<double>& points_x,
     }
     return dot_product;
 }
+
+void Cube::rotate_x(double angle) {
+    for (Plane &plane : planes){
+        plane.rotate_x(angle);
+    }
+}
+void Cube::rotate_y(double angle) {
+        for (Plane &plane : planes){
+        plane.rotate_y(angle);
+    }
+}
+void Cube::rotate_z(double angle) {
+        for (Plane &plane : planes){
+        plane.rotate_z(angle);
+    }
+}
+
+
+void Cube::clear() {
+        for (Plane &plane : planes){
+        plane.clear();
+    }
+}
