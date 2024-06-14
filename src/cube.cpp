@@ -37,24 +37,51 @@ std::vector<double> Cube::get_points(std::vector<double>& points_x,
 }
 
 void Cube::rotate_x(double angle) {
-    for (Plane &plane : planes){
+    for (Plane& plane : planes) {
         plane.rotate_x(angle);
     }
 }
 void Cube::rotate_y(double angle) {
-        for (Plane &plane : planes){
+    for (Plane& plane : planes) {
         plane.rotate_y(angle);
     }
 }
 void Cube::rotate_z(double angle) {
-        for (Plane &plane : planes){
+    for (Plane& plane : planes) {
         plane.rotate_z(angle);
     }
 }
 
+void Cube::protate_x(double angle) {
+    for (Plane& plane : planes) {
+        plane.protate_x(angle);
+    }
+}
+void Cube::protate_y(double angle) {
+    for (Plane& plane : planes) {
+        plane.protate_y(angle);
+    }
+}
+void Cube::protate_z(double angle) {
+    for (Plane& plane : planes) {
+        plane.protate_z(angle);
+    }
+}
+
+void Cube::move(double x, double y, double z) {
+    for (Plane& plane : planes) {
+        plane.move(x, y, z);
+    }
+}
+
+void Cube::pmove(double x, double y, double z) {
+    for (Plane& plane : planes) {
+        plane.pmove(x, y, z);
+    }
+}
 
 void Cube::clear() {
-        for (Plane &plane : planes){
+    for (Plane& plane : planes) {
         plane.clear();
     }
 }

@@ -48,12 +48,12 @@ void blank_canvas(const int& terminal_x,
     }
 }
 
-std::string torus(const int& terminal_x,
-                  const int& terminal_y,
-                  double& rotation_x,
-                  double& rotation_z,
-                  const int& r1,
-                  const int& r2) {
+std::string torus_draw(const int& terminal_x,
+                       const int& terminal_y,
+                       double& rotation_x,
+                       double& rotation_z,
+                       const int& r1,
+                       const int& r2) {
     double k1;
     {
         int x = (std::min)(terminal_x, terminal_y);
@@ -106,11 +106,11 @@ std::string torus(const int& terminal_x,
     return print_buffer;
 }
 
-std::string cube(const int& terminal_x,
-                 const int& terminal_y,
-                 double& rotation_x,
-                 double& rotation_z,
-                 Plane& square) {
+std::string plane_draw(const int& terminal_x,
+                       const int& terminal_y,
+                       double& rotation_x,
+                       double& rotation_z,
+                       Plane& square) {
     double a = 3;
     double k1;
     {
@@ -154,11 +154,11 @@ std::string cube(const int& terminal_x,
     return print_buffer;
 }
 
-std::string cube(const int& terminal_x,
-                 const int& terminal_y,
-                 double& rotation_x,
-                 double& rotation_z,
-                 Cube& dice) {
+std::string cube_draw(const int& terminal_x,
+                      const int& terminal_y,
+                      double& rotation_x,
+                      double& rotation_z,
+                      Cube& cube) {
     double a = 3;
     double k1;
     {
@@ -176,11 +176,11 @@ std::string cube(const int& terminal_x,
     std::vector<double> points_x, points_y, points_z, dot_product;
 
 
-    dice.rotate_y(0.07);
-    dice.rotate_x(0.03);
+    cube.rotate_x(0.03);
+    // cube.move(0, 1, 0);
 
-    dot_product = dice.get_points(points_x, points_y, points_z);
-    dice.clear();
+    dot_product = cube.get_points(points_x, points_y, points_z);
+    cube.clear();
 
     int cube_size = dot_product.size();
     for (int point = 0; point < cube_size; point++) {
@@ -212,11 +212,11 @@ void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
     int terminal_x = RX, terminal_y = RY;
     // Plane square = Plane(3, 1.5, PR_FRONT);
-    Cube dice = Cube(3);
+    Cube cube = Cube(3);
 
 
-    // square.protate_x(1);
-    // square.pmove(0, 2, 0);
+    cube.protate_y(M_PI_4);
+    cube.pmove(0, 2, 0);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
@@ -239,9 +239,9 @@ void ascii_frame() {
 
 
         print_buffer =
-            cube(terminal_x, terminal_y, rotation_x, rotation_z, dice);
-        // cube(terminal_x, terminal_y, rotation_x, rotation_z, square);
-        // torus(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
+            cube_draw(terminal_x, terminal_y, rotation_x, rotation_z, cube);
+        // plane_draw(terminal_x, terminal_y, rotation_x, rotation_z, square);
+        // torus_draw(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
         std::cout << print_buffer;
         // square.clear();

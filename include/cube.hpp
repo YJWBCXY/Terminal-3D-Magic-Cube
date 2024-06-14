@@ -19,5 +19,12 @@ class Cube {
     void rotate_y(double angle);
     void rotate_z(double angle);
 
+    void protate_x(double angle);
+    void protate_y(double angle);
+    void protate_z(double angle);
+
+    void move(double x, double y, double z);
+    void pmove(double x, double y, double z);
+
     void clear();
 };
