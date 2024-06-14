@@ -48,6 +48,42 @@ void blank_canvas(const int& terminal_x,
     }
 }
 
+std::string draw(const int& terminal_x,
+                 const int& terminal_y,
+                 const std::vector<double> points_x,
+                 const std::vector<double> points_y,
+                 const std::vector<double> points_z,
+                 const std::vector<double> dot_product,
+                 const double k1,
+                 const int k2,
+                 std::vector<double> z_buffer,
+                 std::string& print_buffer) {
+    int size = dot_product.size();
+    for (int point = 0; point < size; point++) {
+        double inverse_z = 1 / ((points_z[point]) + k2);
+
+        int px = (int)(terminal_x / 2 + k1 * inverse_z * (points_x[point])),
+            py = (int)(terminal_y / 1.95 +
+                       (k1 / 2) * inverse_z * (points_y[point]));
+
+        int o = px + terminal_x * py;
+
+        int normal = (int)(8 * (dot_product[point]));
+        if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
+            inverse_z > z_buffer[o]) {
+            z_buffer[o] = inverse_z;
+            char _char;
+            if (normal > 0) {
+                _char = ".,-~:;=!*#$@"[normal];
+            } else {
+                _char = '.';
+            }
+            print_buffer[o] = _char;
+        }
+    }
+    return print_buffer;
+}
+
 std::string torus_draw(const int& terminal_x,
                        const int& terminal_y,
                        double& rotation_x,
@@ -182,29 +218,17 @@ std::string cube_draw(const int& terminal_x,
     dot_product = cube.get_points(points_x, points_y, points_z);
     cube.clear();
 
-    int cube_size = dot_product.size();
-    for (int point = 0; point < cube_size; point++) {
-        double inverse_z = 1 / ((points_z[point]) + k2);
+    draw(terminal_x,
+         terminal_y,
+         points_x,
+         points_y,
+         points_z,
+         dot_product,
+         k1,
+         k2,
+         z_buffer,
+         print_buffer);
 
-        int px = (int)(terminal_x / 2 + k1 * inverse_z * (points_x[point])),
-            py = (int)(terminal_y / 1.95 +
-                       (k1 / 2) * inverse_z * (points_y[point]));
-
-        int o = px + terminal_x * py;
-
-        int normal = (int)(8 * (dot_product[point]));
-        if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
-            inverse_z > z_buffer[o]) {
-            z_buffer[o] = inverse_z;
-            char _char;
-            if (normal > 0) {
-                _char = ".,-~:;=!*#$@"[normal];
-            } else {
-                _char = '.';
-            }
-            print_buffer[o] = _char;
-        }
-    }
     return print_buffer;
 }
 
@@ -216,7 +240,7 @@ void ascii_frame() {
 
 
     cube.protate_y(M_PI_4);
-    cube.pmove(0, 2, 0);
+    // cube.pmove(0, 2, 0);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)
