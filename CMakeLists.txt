@@ -4,4 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(terminal_3d_projection)
 
-add_subdirectory(terminal_3d_projection)
+include_directories(include)
+
+add_subdirectory(src)
