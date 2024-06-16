@@ -5,7 +5,28 @@
 
 Cube::Cube(double size) {
     for (int i = 0; i < 6; i++) {
-        planes.push_back(Plane(size, size / 2, i));
+        Plane plane = Plane(size, size / 2, i);
+        switch (i) {
+            case 0:
+                plane.colour = RED;
+                break;
+            case 1:
+                plane.colour = GREEN;
+                break;
+            case 2:
+                plane.colour = YELLOW;
+                break;
+            case 3:
+                plane.colour = BLUE;
+                break;
+            case 4:
+                plane.colour = WHITE;
+                break;
+            case 5:
+                plane.colour = MAGENTA;
+                break;
+        }
+        planes.push_back(plane);
     }
 }
 
@@ -31,6 +52,7 @@ std::vector<double> Cube::get_points(std::vector<double>& points_x,
         int size = plane.points_x.size();
         for (int i = 0; i < size; i++) {
             dot_product.push_back(plane.dot_product);
+            colour.push_back(plane.colour);
         }
     }
     return dot_product;

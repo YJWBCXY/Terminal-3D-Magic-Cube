@@ -5,7 +5,7 @@
             "name": "CMake Debug MacOS",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/terminal_3d_projection/terminal_3d_projection",
+            "program": "${workspaceFolder}/build/src/terminal_3d_projection",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

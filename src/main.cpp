@@ -19,6 +19,7 @@
     #include <windows.h>
 #endif
 
+#include "canvas.hpp"
 #include "cube.hpp"
 #include "definitions.h"
 #include "plane.hpp"
@@ -56,9 +57,14 @@ std::string draw(const int& terminal_x,
                  const std::vector<double> dot_product,
                  const double k1,
                  const int k2,
-                 std::vector<double> z_buffer,
-                 std::string& print_buffer) {
-    int size = dot_product.size();
+                 std::vector<std::string> colours) {
+    Canvas print_buffer = Canvas(terminal_x, terminal_y);
+    int size = print_buffer.size;
+    std::vector<double> z_buffer;
+    for (int i = 0; i < size; i++) {
+        z_buffer.push_back(0.0);
+    }
+    size = dot_product.size();
     for (int point = 0; point < size; point++) {
         double inverse_z = 1 / ((points_z[point]) + k2);
 
@@ -78,10 +84,11 @@ std::string draw(const int& terminal_x,
             } else {
                 _char = '.';
             }
-            print_buffer[o] = _char;
+            print_buffer.canvas[o] = _char;
+            print_buffer.canvas_colours[o] = colours[point];
         }
     }
-    return print_buffer;
+    return print_buffer.to_string();
 }
 
 std::string torus_draw(const int& terminal_x,
@@ -210,24 +217,25 @@ std::string cube_draw(const int& terminal_x,
     blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
 
     std::vector<double> points_x, points_y, points_z, dot_product;
+    std::vector<std::string> colours;
 
 
     cube.rotate_x(0.03);
     // cube.move(0, 1, 0);
 
     dot_product = cube.get_points(points_x, points_y, points_z);
+    colours = cube.colour;
     cube.clear();
 
-    draw(terminal_x,
-         terminal_y,
-         points_x,
-         points_y,
-         points_z,
-         dot_product,
-         k1,
-         k2,
-         z_buffer,
-         print_buffer);
+    print_buffer = draw(terminal_x,
+                        terminal_y,
+                        points_x,
+                        points_y,
+                        points_z,
+                        dot_product,
+                        k1,
+                        k2,
+                        colours);
 
     return print_buffer;
 }
@@ -269,7 +277,7 @@ void ascii_frame() {
 
         std::cout << print_buffer;
         // square.clear();
-        std::this_thread::sleep_for(std::chrono::milliseconds(35));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(35));
     }
 }
 

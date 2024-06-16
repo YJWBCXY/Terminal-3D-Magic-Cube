@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+#include "definitions.h"
+
 class Plane {
     private:
     int SIZE_X, SIZE_Y;
@@ -15,6 +17,7 @@ class Plane {
     double normal[3] = {0, 0, 0}; // x, y, z
     double view[3] = {0, 1, 1};   // x, y, z
     double dot_product;
+    std::string colour = WHITE;
 
     private:
     void rotate_x(double angle, double& y, double& z);
