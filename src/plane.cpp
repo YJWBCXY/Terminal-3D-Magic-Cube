@@ -24,6 +24,7 @@ Plane::Plane(double size, double z_offset) {
 }
 
 Plane::Plane(double size, double z_offset, int direction) {
+    A = size;
     SIZE_X = size / RESOLUTION, SIZE_Y = size / RESOLUTION;
     SIZE = SIZE_X * SIZE_Y;
     initial_points_x.resize(SIZE);
@@ -165,6 +166,32 @@ void Plane::pmove(double x, double y, double z) {
         initial_points_x[i] += x;
         initial_points_y[i] += y;
         initial_points_z[i] += z;
+    }
+}
+
+void Plane::draw(Canvas& canvas) {
+    double k2 = A * 1.5;
+    double k1 = 28;
+
+    for (int point = 0; point < SIZE; point++) {
+        double inverse_z = 1 / ((points_z[point]) + k2);
+        int px = (int)(canvas.size_x / 2 + k1 * inverse_z * (points_x[point])),
+            py = (int)(canvas.size_y / 1.95 +
+                       (k1 / 2) * inverse_z * (points_y[point]));
+
+        int o = px + canvas.size_x * py;
+        int normal = (int)(8 * (dot_product));
+        if (py < canvas.size_y && py >= 0 && px >= 0 &&
+            px <= canvas.size_x - 1 && inverse_z > canvas.z_buffer[o]) {
+            canvas.z_buffer[o] = inverse_z;
+            char _char;
+            if (normal > 0) {
+                _char = ".,-~:;=!*#$@"[normal];
+            } else {
+                _char = '.';
+            }
+            canvas.set(o, _char, colour);
+        }
     }
 }
 

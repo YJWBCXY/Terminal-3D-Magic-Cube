@@ -32,8 +32,6 @@
 
 #define PLANE_STEP 0.0145
 
-// #define K1 88 //23:27 //46:58 //69:88
-// #define K2 R1 + R2 * 2
 
 void blank_canvas(const int& terminal_x,
                   const int& terminal_y,
@@ -47,48 +45,6 @@ void blank_canvas(const int& terminal_x,
         }
         z_buffer.push_back(0.0);
     }
-}
-
-std::string draw(const int& terminal_x,
-                 const int& terminal_y,
-                 const std::vector<double> points_x,
-                 const std::vector<double> points_y,
-                 const std::vector<double> points_z,
-                 const std::vector<double> dot_product,
-                 const double k1,
-                 const int k2,
-                 std::vector<std::string> colours) {
-    Canvas print_buffer = Canvas(terminal_x, terminal_y);
-    int size = print_buffer.size;
-    std::vector<double> z_buffer;
-    for (int i = 0; i < size; i++) {
-        z_buffer.push_back(0.0);
-    }
-    size = dot_product.size();
-    for (int point = 0; point < size; point++) {
-        double inverse_z = 1 / ((points_z[point]) + k2);
-
-        int px = (int)(terminal_x / 2 + k1 * inverse_z * (points_x[point])),
-            py = (int)(terminal_y / 1.95 +
-                       (k1 / 2) * inverse_z * (points_y[point]));
-
-        int o = px + terminal_x * py;
-
-        int normal = (int)(8 * (dot_product[point]));
-        if (py < terminal_y && py >= 0 && px >= 0 && px <= terminal_x - 1 &&
-            inverse_z > z_buffer[o]) {
-            z_buffer[o] = inverse_z;
-            char _char;
-            if (normal > 0) {
-                _char = ".,-~:;=!*#$@"[normal];
-            } else {
-                _char = '.';
-            }
-            print_buffer.canvas[o] = _char;
-            print_buffer.canvas_colours[o] = colours[point];
-        }
-    }
-    return print_buffer.to_string();
 }
 
 std::string torus_draw(const int& terminal_x,
@@ -197,47 +153,17 @@ std::string plane_draw(const int& terminal_x,
     return print_buffer;
 }
 
-std::string cube_draw(const int& terminal_x,
-                      const int& terminal_y,
-                      double& rotation_x,
-                      double& rotation_z,
-                      Cube& cube) {
-    double a = 3;
-    double k1;
-    {
-        int x = (std::min)(terminal_x, terminal_y);
-        // k1 = -0.001 * x * x + 1.413 * x - 5;
-        k1 = 28;
-    }
-    std::string print_buffer;
-    std::vector<double> z_buffer;
-    int k2 = a * 1.5;
-    double ha = a / 2;
-
-    blank_canvas(terminal_x, terminal_y, print_buffer, z_buffer);
-
-    std::vector<double> points_x, points_y, points_z, dot_product;
-    std::vector<std::string> colours;
-
-
+void cube_draw(const int& terminal_x,
+               const int& terminal_y,
+               Cube& cube,
+               Canvas& canvas) {
+    cube.move(0, 1, 0);
     cube.rotate_x(0.03);
-    // cube.move(0, 1, 0);
+    cube.rotate_y(0.07);
 
-    dot_product = cube.get_points(points_x, points_y, points_z);
-    colours = cube.colour;
+    cube.draw(canvas);
+
     cube.clear();
-
-    print_buffer = draw(terminal_x,
-                        terminal_y,
-                        points_x,
-                        points_y,
-                        points_z,
-                        dot_product,
-                        k1,
-                        k2,
-                        colours);
-
-    return print_buffer;
 }
 
 void ascii_frame() {
@@ -257,7 +183,6 @@ void ascii_frame() {
         terminal_x = w.ws_col;
         terminal_y = w.ws_row;
 #elif defined(_WIN32)
-        // untested
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         int columns, rows;
 
@@ -266,17 +191,16 @@ void ascii_frame() {
         terminal_y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 #endif
 
-        std::string print_buffer;
+        Canvas canvas = Canvas(terminal_x, terminal_y);
 
-
-
-        print_buffer =
-            cube_draw(terminal_x, terminal_y, rotation_x, rotation_z, cube);
+        cube_draw(terminal_x, terminal_y, cube, canvas);
+        // print_buffer =
         // plane_draw(terminal_x, terminal_y, rotation_x, rotation_z, square);
         // torus_draw(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
 
-        std::cout << print_buffer;
-        // square.clear();
+        std::cout << canvas.to_string();
+        canvas.clear();
+
         // std::this_thread::sleep_for(std::chrono::milliseconds(35));
     }
 }

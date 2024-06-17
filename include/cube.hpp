@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "canvas.hpp"
 #include "plane.hpp"
 
 class Cube {
@@ -25,6 +26,8 @@ class Cube {
 
     void move(double x, double y, double z);
     void pmove(double x, double y, double z);
+
+    void draw(Canvas& canvas);
 
     void clear();
 };

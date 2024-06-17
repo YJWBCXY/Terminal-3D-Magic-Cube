@@ -102,6 +102,13 @@ void Cube::pmove(double x, double y, double z) {
     }
 }
 
+void Cube::draw(Canvas& canvas) {
+    for (Plane& plane : planes) {
+        plane.calculate_dot_product();
+        plane.draw(canvas);
+    }
+}
+
 void Cube::clear() {
     for (Plane& plane : planes) {
         plane.clear();

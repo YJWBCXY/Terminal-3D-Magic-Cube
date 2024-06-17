@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
 
+#include "canvas.hpp"
 #include "definitions.h"
 
 class Plane {
     private:
-    int SIZE_X, SIZE_Y;
+    int SIZE_X, SIZE_Y, A;
     double RESOLUTION = 0.0145;
     double rotation_x = 0, rotation_y = 0, rotation_z = 0;
     std::vector<double> initial_points_x, initial_points_y, initial_points_z;
@@ -39,6 +40,8 @@ class Plane {
 
     void move(double x, double y, double z);
     void pmove(double x, double y, double z);
+
+    void draw(Canvas& canvas);
 
     void clear();
 };
