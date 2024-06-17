@@ -11,10 +11,10 @@ Cube::Cube(double size) {
                 plane.colour = RED;
                 break;
             case 1:
-                plane.colour = GREEN;
+                plane.colour = MAGENTA;
                 break;
             case 2:
-                plane.colour = YELLOW;
+                plane.colour = GREEN;
                 break;
             case 3:
                 plane.colour = BLUE;
@@ -23,7 +23,7 @@ Cube::Cube(double size) {
                 plane.colour = WHITE;
                 break;
             case 5:
-                plane.colour = MAGENTA;
+                plane.colour = YELLOW;
                 break;
         }
         planes.push_back(plane);

@@ -157,9 +157,9 @@ void cube_draw(const int& terminal_x,
                const int& terminal_y,
                Cube& cube,
                Canvas& canvas) {
-    cube.move(0, 1, 0);
+    // cube.move(0, 1, 0);
     cube.rotate_x(0.03);
-    cube.rotate_y(0.07);
+    // cube.rotate_y(0.07);
 
     cube.draw(canvas);
 
