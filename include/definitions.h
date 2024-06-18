@@ -9,9 +9,9 @@
 #define PR_BOTTOM 5
 
 // colours
-#define RED "\e[91m"
-#define GREEN "\e[92m"
-#define YELLOW "\e[93m"
-#define BLUE "\e[96m"
-#define WHITE "\e[97m"
-#define MAGENTA "\e[95m"
+#define RED "\033[91m"
+#define GREEN "\033[92m"
+#define YELLOW "\033[93m"
+#define BLUE "\033[96m"
+#define WHITE "\033[97m"
+#define MAGENTA "\033[95m"

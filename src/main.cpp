@@ -206,6 +206,10 @@ void ascii_frame() {
 }
 
 int main() {
+#if defined(_WIN32)
+    system("color");
+#endif
+
     ascii_frame();
     return 0;
 }
