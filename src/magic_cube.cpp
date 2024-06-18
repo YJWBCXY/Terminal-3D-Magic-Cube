@@ -39,6 +39,50 @@ Magic_cube::Magic_cube(double size) {
     }
 }
 
+void Magic_cube::rotate_x(double angle) {
+    for (Cube& cube : cubes) {
+        cube.rotate_x(angle);
+    }
+}
+void Magic_cube::rotate_y(double angle) {
+    for (Cube& cube : cubes) {
+        cube.rotate_y(angle);
+    }
+}
+void Magic_cube::rotate_z(double angle) {
+    for (Cube& cube : cubes) {
+        cube.rotate_z(angle);
+    }
+}
+
+void Magic_cube::protate_x(double angle) {
+    for (Cube& cube : cubes) {
+        cube.protate_x(angle);
+    }
+}
+void Magic_cube::protate_y(double angle) {
+    for (Cube& cube : cubes) {
+        cube.protate_y(angle);
+    }
+}
+void Magic_cube::protate_z(double angle) {
+    for (Cube& cube : cubes) {
+        cube.protate_z(angle);
+    }
+}
+
+void Magic_cube::move(double x, double y, double z) {
+    for (Cube& cube : cubes) {
+        cube.move(x, y, z);
+    }
+}
+
+void Magic_cube::pmove(double x, double y, double z) {
+    for (Cube& cube : cubes) {
+        cube.pmove(x, y, z);
+    }
+}
+
 void Magic_cube::draw(Canvas& canvas) {
     for (Cube& cube : cubes) {
         cube.draw(canvas);
