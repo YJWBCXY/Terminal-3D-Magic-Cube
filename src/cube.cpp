@@ -4,25 +4,26 @@
 #include "plane.hpp"
 
 Cube::Cube(double size) {
+    SIZE = size;
     for (int i = 0; i < 6; i++) {
-        Plane plane = Plane(size, size / 2, i);
+        Plane plane = Plane(SIZE, SIZE / 2, i);
         switch (i) {
-            case 0:
+            case PR_FRONT:
                 plane.colour = RED;
                 break;
-            case 1:
+            case PR_BACK:
                 plane.colour = MAGENTA;
                 break;
-            case 2:
+            case PR_RIGHT:
                 plane.colour = GREEN;
                 break;
-            case 3:
+            case PR_LEFT:
                 plane.colour = BLUE;
                 break;
-            case 4:
+            case PR_TOP:
                 plane.colour = WHITE;
                 break;
-            case 5:
+            case PR_BOTTOM:
                 plane.colour = YELLOW;
                 break;
         }
@@ -107,6 +108,7 @@ void Cube::draw(Canvas& canvas) {
         plane.calculate_dot_product();
         plane.draw(canvas);
     }
+    clear();
 }
 
 void Cube::clear() {

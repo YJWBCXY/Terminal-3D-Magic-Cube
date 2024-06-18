@@ -6,7 +6,8 @@
 
 class Plane {
     private:
-    int SIZE_X, SIZE_Y, A;
+    int SIZE_X, SIZE_Y;
+    double A;
     double RESOLUTION = 0.0145;
     double rotation_x = 0, rotation_y = 0, rotation_z = 0;
     std::vector<double> initial_points_x, initial_points_y, initial_points_z;

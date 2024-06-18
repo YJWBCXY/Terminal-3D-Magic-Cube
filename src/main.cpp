@@ -22,6 +22,7 @@
 #include "canvas.hpp"
 #include "cube.hpp"
 #include "definitions.h"
+#include "magic_cube.hpp"
 #include "plane.hpp"
 
 #define RX 80
@@ -157,23 +158,32 @@ void cube_draw(const int& terminal_x,
                const int& terminal_y,
                Cube& cube,
                Canvas& canvas) {
-    // cube.move(0, 1, 0);
+    cube.move(0, -1, 0);
     cube.rotate_x(0.03);
     // cube.rotate_y(0.07);
 
     cube.draw(canvas);
 
-    cube.clear();
+    // cube.clear();
 }
+
+void magic_cube_draw(const int& terminal_x,
+                     const int& terminal_y,
+                     Magic_cube& magic_cube,
+                     Canvas& canvas) {
+    magic_cube.draw(canvas);
+}
+
 
 void ascii_frame() {
     double rotation_x = 0, rotation_z = 0;
     int terminal_x = RX, terminal_y = RY;
     // Plane square = Plane(3, 1.5, PR_FRONT);
     Cube cube = Cube(3);
+    Magic_cube magic_cube = Magic_cube(3);
 
 
-    cube.protate_y(M_PI_4);
+    // cube.protate_y(M_PI_4);
     // cube.pmove(0, 2, 0);
 
     while (true) {
@@ -193,7 +203,9 @@ void ascii_frame() {
 
         Canvas canvas = Canvas(terminal_x, terminal_y);
 
-        cube_draw(terminal_x, terminal_y, cube, canvas);
+        // cube_draw(terminal_x, terminal_y, cube, canvas);
+        magic_cube_draw(terminal_x, terminal_y, magic_cube, canvas);
+
         // print_buffer =
         // plane_draw(terminal_x, terminal_y, rotation_x, rotation_z, square);
         // torus_draw(terminal_x, terminal_y, rotation_x, rotation_z, R1, R2);
