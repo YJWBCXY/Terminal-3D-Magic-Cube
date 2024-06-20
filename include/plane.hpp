@@ -8,7 +8,7 @@ class Plane {
     private:
     int SIZE_X, SIZE_Y;
     double A;
-    double RESOLUTION = 0.0145;
+    double RESOLUTION = 0.05;
     double rotation_x = 0, rotation_y = 0, rotation_z = 0;
     std::vector<double> initial_points_x, initial_points_y, initial_points_z;
     double initial_normal[3] = {0, 0, 0}; // x, y, z

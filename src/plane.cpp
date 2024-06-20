@@ -170,8 +170,8 @@ void Plane::pmove(double x, double y, double z) {
 }
 
 void Plane::draw(Canvas& canvas) {
-    double k2 = A * 2;
-    double k1 = 10;
+    double k2 = A * 4;
+    double k1 = 30;
 
     for (int point = 0; point < SIZE; point++) {
         double inverse_z = 1 / ((points_z[point]) + k2);
