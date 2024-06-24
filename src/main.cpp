@@ -171,6 +171,7 @@ void magic_cube_draw(const int& terminal_x,
                      const int& terminal_y,
                      Magic_cube& magic_cube,
                      Canvas& canvas) {
+    magic_cube.scramble();
     magic_cube.rotate_y(0.01);
     magic_cube.rotate_x(0.03);
     magic_cube.draw(canvas);

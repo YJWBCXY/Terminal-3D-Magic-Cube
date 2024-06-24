@@ -88,3 +88,19 @@ void Magic_cube::draw(Canvas& canvas) {
         cube.draw(canvas);
     }
 }
+
+void Magic_cube::scramble() {
+    tmp_angle += step;
+    if (tmp_angle > M_PI_4) {
+        tmp_angle = 0;
+    }
+    for (int z = 0; z < 3; z++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (z == 0) {
+                    cubes[x + y * 3 + z * 9].rotate_z(step);
+                }
+            }
+        }
+    }
+}

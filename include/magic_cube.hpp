@@ -7,6 +7,7 @@
 class Magic_cube {
     private:
     std::vector<Cube> cubes;
+    double tmp_angle = 0, step = 0.04;
 
     public:
     Magic_cube(double size);
@@ -23,4 +24,5 @@ class Magic_cube {
     void pmove(double x, double y, double z);
 
     void draw(Canvas& canvas);
+    void scramble();
 };
