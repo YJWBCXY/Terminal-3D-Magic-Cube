@@ -71,12 +71,33 @@ void Magic_cube::protate_z(double angle) {
     }
 }
 
+void Magic_cube::srotate_x(double angle) {
+    for (Cube& cube : cubes) {
+        cube.srotate_x(angle);
+    }
+}
+void Magic_cube::srotate_y(double angle) {
+    for (Cube& cube : cubes) {
+        cube.srotate_y(angle);
+    }
+}
+void Magic_cube::srotate_z(double angle) {
+    for (Cube& cube : cubes) {
+        cube.srotate_z(angle);
+    }
+}
+
+void Magic_cube::pi_2_rotate() {
+    for (Cube& cube : cubes) {
+        cube.pi_2_rotate();
+    }
+}
+
 void Magic_cube::move(double x, double y, double z) {
     for (Cube& cube : cubes) {
         cube.move(x, y, z);
     }
 }
-
 void Magic_cube::pmove(double x, double y, double z) {
     for (Cube& cube : cubes) {
         cube.pmove(x, y, z);
@@ -91,14 +112,26 @@ void Magic_cube::draw(Canvas& canvas) {
 
 void Magic_cube::scramble() {
     tmp_angle += step;
-    if (tmp_angle > M_PI_4) {
+    if (tmp_angle > M_PI_2) {
         tmp_angle = 0;
+        for (int z = 0; z < 3; z++) {
+            for (int y = 0; y < 3; y++) {
+                for (int x = 0; x < 3; x++) {
+                    if (z == 0) {
+                        int tmp =
+                            cubes[x + y * 3 + z * 9].get_pi_2_rotation_z();
+                        tmp++;
+                        cubes[x + y * 3 + z * 9].set_pi_2_rotation_z(tmp);
+                    }
+                }
+            }
+        }
     }
     for (int z = 0; z < 3; z++) {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
                 if (z == 0) {
-                    cubes[x + y * 3 + z * 9].rotate_z(step);
+                    cubes[x + y * 3 + z * 9].srotate_z(tmp_angle);
                 }
             }
         }
