@@ -36,13 +36,5 @@ class Magic_cube {
 
     void draw(Canvas& canvas);
 
-    int get_pi_2_rotation_x();
-    int get_pi_2_rotation_y();
-    int get_pi_2_rotation_z();
-
-    void set_pi_2_rotation_x(int value);
-    void set_pi_2_rotation_y(int value);
-    void set_pi_2_rotation_z(int value);
-
     void scramble();
 };

@@ -113,19 +113,24 @@ void Magic_cube::draw(Canvas& canvas) {
 void Magic_cube::scramble() {
     tmp_angle += step;
     if (tmp_angle > M_PI_2) {
+        std::vector<Cube> tmp_cubes;
+        tmp_cubes.assign(cubes.begin(), cubes.end());
         tmp_angle = 0;
         for (int z = 0; z < 3; z++) {
             for (int y = 0; y < 3; y++) {
                 for (int x = 0; x < 3; x++) {
+                    int index = x + y * 3 + z * 9;
                     if (z == 0) {
-                        int tmp =
-                            cubes[x + y * 3 + z * 9].get_pi_2_rotation_z();
+                        int tmp = cubes[index].get_pi_2_rotation_z();
                         tmp++;
-                        cubes[x + y * 3 + z * 9].set_pi_2_rotation_z(tmp);
+                        cubes[index].set_pi_2_rotation_z(tmp);
+                        tmp_cubes[abs(x - 2) + abs(y - 2) * 3 + z * 9];
                     }
+                    tmp_cubes[index] = cubes[index];
                 }
             }
         }
+        cubes.assign(tmp_cubes.begin(), tmp_cubes.end());
     }
     for (int z = 0; z < 3; z++) {
         for (int y = 0; y < 3; y++) {
