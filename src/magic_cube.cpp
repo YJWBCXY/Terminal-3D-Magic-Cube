@@ -125,8 +125,9 @@ void Magic_cube::scramble() {
                         tmp++;
                         cubes[index].set_pi_2_rotation_z(tmp);
                         tmp_cubes[abs(x - 2) + abs(y - 2) * 3 + z * 9];
+                    } else {
+                        tmp_cubes[index] = cubes[index];
                     }
-                    tmp_cubes[index] = cubes[index];
                 }
             }
         }
