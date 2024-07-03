@@ -27,6 +27,7 @@ class Plane {
     double view[3] = {0, 1, 1};   // x, y, z
     double dot_product;
     std::string colour = WHITE;
+    int no;
 
     private:
     void rotate_x(double angle, double& y, double& z);

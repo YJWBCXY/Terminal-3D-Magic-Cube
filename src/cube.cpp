@@ -104,6 +104,82 @@ void Cube::srotate_z(double angle) {
     }
 }
 
+void Cube::crotate_x(bool reverse) {
+    int clock[] = {PR_FRONT, PR_TOP, PR_BACK, PR_BOTTOM},
+        cclock[] = {PR_BOTTOM, PR_BACK, PR_TOP, PR_FRONT};
+    int* faces;
+
+    if (reverse) {
+        faces = cclock;
+    } else {
+        faces = clock;
+    }
+
+    std::string first = planes[*faces].colour;
+
+    for (int i = 0; i < 4; i++) {
+        int index = *(faces + i), index2;
+
+        if (i + 1 < 4) {
+            index2 = *(faces + i + 1);
+            planes[index].colour = planes[index2].colour;
+        } else {
+            index2 = *faces;
+            planes[index].colour = first;
+        }
+    }
+}
+void Cube::crotate_y(bool reverse) {
+    int clock[] = {PR_FRONT, PR_RIGHT, PR_BACK, PR_LEFT},
+        cclock[] = {PR_LEFT, PR_BACK, PR_RIGHT, PR_FRONT};
+    int* faces;
+
+    if (reverse) {
+        faces = cclock;
+    } else {
+        faces = clock;
+    }
+
+    std::string first = planes[*faces].colour;
+
+    for (int i = 0; i < 4; i++) {
+        int index = *(faces + i), index2;
+
+        if (i + 1 < 4) {
+            index2 = *(faces + i + 1);
+            planes[index].colour = planes[index2].colour;
+        } else {
+            index2 = *faces;
+            planes[index].colour = first;
+        }
+    }
+}
+void Cube::crotate_z(bool reverse) {
+    int cclock[] = {PR_TOP, PR_RIGHT, PR_BOTTOM, PR_LEFT},
+        clock[] = {PR_LEFT, PR_BOTTOM, PR_RIGHT, PR_TOP};
+    int* faces;
+
+    if (reverse) {
+        faces = cclock;
+    } else {
+        faces = clock;
+    }
+
+    std::string first = planes[*faces].colour;
+
+    for (int i = 0; i < 4; i++) {
+        int index = *(faces + i), index2;
+
+        if (i + 1 < 4) {
+            index2 = *(faces + i + 1);
+            planes[index].colour = planes[index2].colour;
+        } else {
+            index2 = *faces;
+            planes[index].colour = first;
+        }
+    }
+}
+
 void Cube::pi_2_rotate() {
     for (Plane& plane : planes) {
         plane.pi_2_rotate();
@@ -124,6 +200,7 @@ void Cube::pmove(double x, double y, double z) {
 
 void Cube::draw(Canvas& canvas) {
     for (Plane& plane : planes) {
+        plane.no = no;
         plane.calculate_dot_product();
         plane.draw(canvas);
     }
@@ -133,6 +210,12 @@ void Cube::draw(Canvas& canvas) {
 void Cube::clear() {
     for (Plane& plane : planes) {
         plane.clear();
+    }
+}
+
+void Cube::colour_transfer(Cube& cube) {
+    for (int i = 0; i < 6; i++) {
+        planes[i].colour = cube.planes[i].colour;
     }
 }
 

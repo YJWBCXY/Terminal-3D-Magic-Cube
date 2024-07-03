@@ -173,8 +173,8 @@ void magic_cube_draw(const int& terminal_x,
                      Canvas& canvas) {
     magic_cube.pi_2_rotate();
     magic_cube.scramble();
-    magic_cube.rotate_y(0.01);
-    magic_cube.rotate_x(0.03);
+    magic_cube.rotate_y(-0.01);
+    // magic_cube.rotate_x(0.03);
     // magic_cube.rotate_z(0);
     magic_cube.draw(canvas);
 }
@@ -188,8 +188,8 @@ void ascii_frame() {
     Magic_cube magic_cube = Magic_cube(3);
 
 
-    // cube.protate_y(M_PI_4);
-    // cube.pmove(0, 2, 0);
+    // magic_cube.protate_y(M_PI_2);
+    // magic_cube.pmove(0, 2, 0);
 
     while (true) {
 #if defined(__linux__) || defined(__APPLE__)

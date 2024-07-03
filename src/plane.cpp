@@ -219,11 +219,16 @@ void Plane::draw(Canvas& canvas) {
             px <= canvas.size_x - 1 && inverse_z > canvas.z_buffer[o]) {
             canvas.z_buffer[o] = inverse_z;
             char _char;
+
             if (normal > 0) {
                 _char = ".,-~:;=!*#$@"[normal];
             } else {
                 _char = '.';
             }
+
+            /* for debugging uncomment the line below */
+            // _char = no + '@';
+
             canvas.set(o, _char, colour);
         }
     }

@@ -5,6 +5,7 @@
     #include <cmath>
 #endif
 
+#include <stdlib.h>
 #include <vector>
 
 #include "cube.hpp"
@@ -13,6 +14,7 @@ class Magic_cube {
     private:
     std::vector<Cube> cubes;
     double tmp_angle = 0, step = 0.04;
+    int layer = 0;
 
     public:
     Magic_cube(double size);
@@ -37,4 +39,8 @@ class Magic_cube {
     void draw(Canvas& canvas);
 
     void scramble();
+
+    private:
+    void update_scramble();
+    void rotate_layer();
 };

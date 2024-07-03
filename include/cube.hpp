@@ -15,6 +15,7 @@ class Cube {
     std::vector<double> get_points(std::vector<double>& points_x,
                                    std::vector<double>& points_y,
                                    std::vector<double>& points_z);
+    int no;
 
     public:
     Cube(double size);
@@ -31,6 +32,10 @@ class Cube {
     void srotate_y(double angle);
     void srotate_z(double angle);
 
+    void crotate_x(bool reverse);
+    void crotate_y(bool reverse);
+    void crotate_z(bool reverse);
+
     void pi_2_rotate();
 
     void move(double x, double y, double z);
@@ -40,6 +45,9 @@ class Cube {
 
     void clear();
 
+    void colour_transfer(Cube& cube);
+
+    // TODO: clean it
     int get_pi_2_rotation_x();
     int get_pi_2_rotation_y();
     int get_pi_2_rotation_z();

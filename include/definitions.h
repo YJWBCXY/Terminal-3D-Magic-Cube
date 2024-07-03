@@ -15,3 +15,22 @@
 #define BLUE "\033[96m"
 #define WHITE "\033[97m"
 #define MAGENTA "\033[95m"
+
+#define FRONT 0
+#define BACK 1
+#define UP 2
+#define DOWN 3
+#define LEFT 4
+#define RIGHT 5
+#define MIDDLE 6
+#define EQUATOR 7
+#define STANDING 8
+#define PRIME_FRONT 9
+#define PRIME_BACK 10
+#define PRIME_UP 11
+#define PRIME_DOWN 12
+#define PRIME_LEFT 13
+#define PRIME_RIGHT 14
+#define PRIME_MIDDLE 15
+#define PRIME_EQUATOR 16
+#define PRIME_STANDING 17
