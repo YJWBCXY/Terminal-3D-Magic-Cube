@@ -36,8 +36,6 @@ class Cube {
     void crotate_y(bool reverse);
     void crotate_z(bool reverse);
 
-    void pi_2_rotate();
-
     void move(double x, double y, double z);
     void pmove(double x, double y, double z);
 
@@ -46,13 +44,4 @@ class Cube {
     void clear();
 
     void colour_transfer(Cube& cube);
-
-    // TODO: clean it
-    int get_pi_2_rotation_x();
-    int get_pi_2_rotation_y();
-    int get_pi_2_rotation_z();
-
-    void set_pi_2_rotation_x(int value);
-    void set_pi_2_rotation_y(int value);
-    void set_pi_2_rotation_z(int value);
 };

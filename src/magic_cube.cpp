@@ -87,12 +87,6 @@ void Magic_cube::srotate_z(double angle) {
     }
 }
 
-void Magic_cube::pi_2_rotate() {
-    for (Cube& cube : cubes) {
-        cube.pi_2_rotate();
-    }
-}
-
 void Magic_cube::move(double x, double y, double z) {
     for (Cube& cube : cubes) {
         cube.move(x, y, z);

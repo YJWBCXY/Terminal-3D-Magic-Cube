@@ -180,12 +180,6 @@ void Cube::crotate_z(bool reverse) {
     }
 }
 
-void Cube::pi_2_rotate() {
-    for (Plane& plane : planes) {
-        plane.pi_2_rotate();
-    }
-}
-
 void Cube::move(double x, double y, double z) {
     for (Plane& plane : planes) {
         plane.move(x, y, z);
@@ -216,55 +210,5 @@ void Cube::clear() {
 void Cube::colour_transfer(Cube& cube) {
     for (int i = 0; i < 6; i++) {
         planes[i].colour = cube.planes[i].colour;
-    }
-}
-
-int Cube::get_pi_2_rotation_x() {
-    int tmp = 0, out = 0;
-    for (Plane& plane : planes) {
-        tmp = plane.get_pi_2_rotation_x();
-        if (out != 0 && out != tmp) {
-            throw "ERROR";
-        }
-        out = tmp;
-    }
-    return out;
-}
-int Cube::get_pi_2_rotation_y() {
-    int tmp = 0, out = 0;
-    for (Plane& plane : planes) {
-        tmp = plane.get_pi_2_rotation_y();
-        if (out != 0 && out != tmp) {
-            throw "ERROR";
-        }
-        out = tmp;
-    }
-    return out;
-}
-int Cube::get_pi_2_rotation_z() {
-    int tmp = 0, out = 0;
-    for (Plane& plane : planes) {
-        tmp = plane.get_pi_2_rotation_z();
-        if (out != 0 && out != tmp) {
-            throw "ERROR";
-        }
-        out = tmp;
-    }
-    return out;
-}
-
-void Cube::set_pi_2_rotation_x(int value) {
-    for (Plane& plane : planes) {
-        plane.set_pi_2_rotation_x(value);
-    }
-}
-void Cube::set_pi_2_rotation_y(int value) {
-    for (Plane& plane : planes) {
-        plane.set_pi_2_rotation_y(value);
-    }
-}
-void Cube::set_pi_2_rotation_z(int value) {
-    for (Plane& plane : planes) {
-        plane.set_pi_2_rotation_z(value);
     }
 }

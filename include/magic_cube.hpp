@@ -31,8 +31,6 @@ class Magic_cube {
     void srotate_y(double angle);
     void srotate_z(double angle);
 
-    void pi_2_rotate();
-
     void move(double x, double y, double z);
     void pmove(double x, double y, double z);
 

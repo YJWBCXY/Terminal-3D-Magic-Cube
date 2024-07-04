@@ -177,19 +177,6 @@ void Plane::srotate_z(double angle) {
     rotate_z(rotation, normal[0], normal[1]);
 }
 
-void Plane::pi_2_rotate() {
-    double rx = pi_2_rotation_x * M_PI_2, ry = pi_2_rotation_y * M_PI_2,
-           rz = pi_2_rotation_z * M_PI_2;
-    for (int i = 0; i < SIZE; i++) {
-        rotate_x(rx, points_y[i], points_z[i]);
-        rotate_y(ry, points_x[i], points_z[i]);
-        rotate_z(rz, points_x[i], points_y[i]);
-    }
-    rotate_x(rx, normal[1], normal[2]);
-    rotate_y(ry, normal[0], normal[2]);
-    rotate_z(rz, normal[0], normal[1]);
-}
-
 void Plane::move(double x, double y, double z) {
     for (int i = 0; i < SIZE; i++) {
         points_x[i] += x;
@@ -244,24 +231,4 @@ void Plane::clear() {
     for (int i = 0; i < 3; i++) {
         normal[i] = initial_normal[i];
     }
-}
-
-int Plane::get_pi_2_rotation_x() {
-    return pi_2_rotation_x;
-}
-int Plane::get_pi_2_rotation_y() {
-    return pi_2_rotation_y;
-}
-int Plane::get_pi_2_rotation_z() {
-    return pi_2_rotation_z;
-}
-
-void Plane::set_pi_2_rotation_x(int value) {
-    pi_2_rotation_x = value;
-}
-void Plane::set_pi_2_rotation_y(int value) {
-    pi_2_rotation_y = value;
-}
-void Plane::set_pi_2_rotation_z(int value) {
-    pi_2_rotation_z = value;
 }
