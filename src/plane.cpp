@@ -206,8 +206,9 @@ void Plane::pmove(double x, double y, double z) {
 }
 
 void Plane::draw(Canvas& canvas) {
-    double k2 = A * 4;
-    double k1 = 30;
+    int x = (std::min)(canvas.size_x, canvas.size_y);
+    double k2 = (double)A / ((double)canvas.size_y * 0.005);
+    double k1 = 50;
 
     for (int point = 0; point < SIZE; point++) {
         double inverse_z = 1 / ((points_z[point]) + k2);
