@@ -173,9 +173,8 @@ void magic_cube_draw(const int& terminal_x,
                      Canvas& canvas) {
     magic_cube.pi_2_rotate();
     magic_cube.scramble();
-    magic_cube.rotate_y(-0.01);
-    // magic_cube.rotate_x(0.03);
-    // magic_cube.rotate_z(0);
+    magic_cube.rotate_y(0.02);
+    magic_cube.rotate_x(0.01);
     magic_cube.draw(canvas);
 }
 

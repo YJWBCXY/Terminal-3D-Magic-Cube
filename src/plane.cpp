@@ -75,8 +75,10 @@ Plane::Plane(double size, double z_offset, int direction) {
     for (int y = 0; y < SIZE_Y; y++) {
         for (int x = 0; x < SIZE_X; x++) {
             int o = x + SIZE_X * y;
-            ptr_1->at(o) = x * RESOLUTION - RESOLUTION * SIZE_X / 2;
-            ptr_2->at(o) = y * RESOLUTION - RESOLUTION * SIZE_Y / 2;
+            ptr_1->at(o) =
+                x * RESOLUTION - RESOLUTION * SIZE_X / 2 + RESOLUTION / 2;
+            ptr_2->at(o) =
+                y * RESOLUTION - RESOLUTION * SIZE_Y / 2 + RESOLUTION / 2;
             ptr_flat->at(o) = z_offset * offset_direction;
         }
     }

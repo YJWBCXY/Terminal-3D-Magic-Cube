@@ -13,7 +13,7 @@
 class Magic_cube {
     private:
     std::vector<Cube> cubes;
-    double tmp_angle = 0, step = 0.04;
+    double tmp_angle = 0, step = 0.1;
     int layer = 0;
 
     public:
